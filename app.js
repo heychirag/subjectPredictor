@@ -5,6 +5,7 @@ var bot={};
 var https = require('https');
 var request = require('request');
 var MongoClient = require('mongodb').MongoClient;
+var cron = require('node-cron');
 
 var DB_URI = "mongodb://instabot:pulsung7690@ds151222.mlab.com:51222/heroku_t3fqxl7f";
 
@@ -63,5 +64,9 @@ MongoClient.connect(DB_URI, function(error, response) {
   log("Connected correctly to server");
   bot.db=response;
   bot.updateAccount('https://igapi.ga/whizzzkid/media/');
+  cron.schedule('* * 0,6,12,18 * * *',function(){
+    console.log("fetching new pics...");
+    bot.updateAccount('https://igapi.ga/whizzzkid/media/');
+  });
 });
 
